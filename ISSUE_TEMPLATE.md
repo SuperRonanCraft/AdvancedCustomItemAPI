@@ -1,4 +1,3 @@
----
 <!-- Leaving a plugin issue/suggestion? Use this format -->
 **Plugin Version**:
 <!--                  "Latest" is not a valid answer                  -->
@@ -17,9 +16,11 @@
 <!-- Possible idea for fixing the issue? -->
 
 **Comments/More info**:
-<!-- Maybe the server-type and version, used plugins, ... -->
+<!-- Maybe the server-type and version, used plugins, ... -->  
 
----
+
+
+
 <!-- Leaving a plugin that uses this library? Use this format -->
 **Plugin Name**:
 <!-- The name of the plugin -->
