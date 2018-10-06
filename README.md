@@ -4,6 +4,9 @@
 
 ## Wheres the Wiki?
 The wiki is available [here](https://github.com/SuperRonanCraft/AdvancedCustomItemAPI/wiki)!
+
+## What is this api used for?
+Check out [this](https://github.com/SuperRonanCraft/AdvancedCustomItemAPI/wiki/Plugins) list of plugins this api is used in!
     
 <p align="center">
   <b><i><a href="https://github.com/SuperRonanCraft/AdvancedCustomItemAPI/issues">If you have a suggestion, please make an issue!</a></i></b></p>

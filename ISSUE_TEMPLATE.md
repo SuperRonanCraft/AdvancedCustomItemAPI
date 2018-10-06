@@ -1,3 +1,5 @@
+---
+<!-- Leaving a plugin issue/suggestion? Use this format -->
 **Plugin Version**:
 <!--                  "Latest" is not a valid answer                  -->
 <!--            Make sure you're using the latest version             -->
@@ -16,3 +18,14 @@
 
 **Comments/More info**:
 <!-- Maybe the server-type and version, used plugins, ... -->
+
+---
+<!-- Leaving a plugin that uses this library? Use this format -->
+**Plugin Name**:
+<!-- The name of the plugin -->
+
+**Description**:
+<!-- A short description of the plugin -->
+
+**Link**:
+<!-- The raw link to the plugins Spigot page -->
