@@ -12,7 +12,7 @@ Check out [this](https://github.com/SuperRonanCraft/AdvancedCustomItemAPI/wiki/P
   <b>Chat with us on Discord</b><br/>
   <a href="https://discord.gg/011FSqSDe1KB4C1hX"><img src="https://img.shields.io/discord/182633513474850818.svg" alt="Discord" /></a><br/>
   <b>Have a Suggestion? Make an issue!</b><br/>
-  <a href="../issues"><img src="https://img.shields.io/github/issues-raw/SuperRonanCraft/AdvancedCustomItemAPI.svg" alt="GitHub issues" /></a><br/>
+  <a href="../../issues"><img src="https://img.shields.io/github/issues-raw/SuperRonanCraft/AdvancedCustomItemAPI.svg" alt="GitHub issues" /></a><br/>
   <br/>
   <a href="https://www.spigotmc.org/resources/49628/">Thank you for viewing the Wiki for AdvancedCustomItemAPI!</a><br/>
   <i><a>Did this wiki help you out? Please give it a <b>Star</b> so I know it's getting use!</a></i><br/>
