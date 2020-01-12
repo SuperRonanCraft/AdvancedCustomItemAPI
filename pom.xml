@@ -47,13 +47,6 @@
             <version>1.13.1-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-        <!-- Spigot (this includes Spigot API, Bukkit API, Craftbukkit and NMS) -->
-        <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot</artifactId>
-            <version>1.13.1-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
         <!-- PlaceholderAPI Support -->
         <dependency>
             <groupId>me.clip</groupId>
