@@ -1,0 +1,13 @@
+# AdvancedCustomItemAPI plugin by SuperRonanCraft! (Join my Public Server mc.RonanCraft.net) #
+# Please give me credit, I'm a first time coder, and would love to see more discussions on my Spigot page! #
+
+Settings:
+  Disable-Updater: false
+
+#test
+Messages:
+  Prefix: '&7[&6AdvancedCustomItemAPI&7]'
+  NoPermission: '%prefix% &cSorry! &fYou do not have permission for this command!'
+  Reload: '%prefix% &aConfig and Messages Reloaded!'
+  Invalid: '%prefix% &cWhoops! &7Invalid argument, try &e/%command% help&7!'
+          

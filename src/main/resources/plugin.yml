@@ -1,0 +1,28 @@
+main: me.SuperRonanCraft.AdvancedCustomItemAPI.Main
+version: 1.6.3
+name: AdvancedCustomItemAPI
+author: SuperRonanCraft
+api-version: 1.13
+softdepend: [PlaceholderAPI]
+
+permissions:
+    advancedcustomitemapi.*:
+        children:
+            advancedcustomitemapi.use: true
+            advancedcustomitemapi.updater: true
+            advancedcustomitemapi.reload: true
+    advancedcustomitemapi.use:
+        description: Use plugin
+        default: op
+    advancedcustomitemapi.updater:
+        description: Get update message
+        default: op
+    advancedcustomitemapi.reload:
+        description: Reload the plugin
+        default: op
+
+commands:
+    advancedcustomitemapi:
+        aliases: [aciapi]
+        description: Show help for AdvancedCustomItemAPI
+        usage: /aciapi <parameter>

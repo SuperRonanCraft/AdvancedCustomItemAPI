@@ -1,0 +1,27 @@
+1.6.3:
+- '- Fixed - Legacy items being pulled while on 1.13 and 1.14'
+1.6.2:
+- '- Fixed - If a placeholder would return an error, the entire inventory would not be shown'
+1.6.1:
+- '- Fixed - An item being nulled when PlaceholderAPI returns a nulled value'
+1.6.0:
+- '- Fixed - Broken NBT tags from the 1.13 update is now back! Adding Banners, Player Heads and Colored Items to 1.13! Monster eggs are still disabled!'
+1.5.2:
+  - '- Changed - Items are now formatted "Item:Amount:Data" instead of "Item:Data:Amount"'
+  - '- Fixed - Some null pointer issues with nulled items'
+1.5.1:
+  - '- Added - Full tab complete support with permissions.'
+  - '- Fixed - Error when having an invalid item.'
+1.5.0:
+  - '- Added - Missing config sections will now regenerate if missing.'
+  - '- Added - New update.yml file will generate, displaying recent patch notes.'
+  - '- Changed - Plugin is now compiled with Maven.'
+  - '- Code - Compiled on the latest Spigot 1.13.1 build!'
+1.4.8:
+  - '- Added - A "/aciapi version" command, to know what version is running without looking in console.'
+  - '- Fixed - An anonymous color class being used, only allowing spigot servers to run the plugin.'
+1.4.7:
+  - '- Fixed - An issue if custom sections were changed, the default config would add these sections back in ghost mode.'
+1.4.6:
+  - '- Warning - This update is only meant for 1.13 users! Heads, Banners and Mob eggs have been disabled is this patch, that is why the version number is the same so updates are not spammed to older versions!'
+  - '- Added - 1.13 Compatibility!'
