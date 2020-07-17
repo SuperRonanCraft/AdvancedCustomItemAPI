@@ -5,7 +5,6 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -13,6 +12,7 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import com.mojang.authlib.properties.PropertyMap;
 import org.bukkit.Material;
+import org.bukkit.craftbukkit.libs.org.apache.commons.codec.binary.Base64;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -44,13 +44,13 @@ public class Heads {
         } else {
             try {
                 playerHead(item, nbt);
-            } catch (Exception e) {
+            } catch (Exception e) {/*
                 try {
                     textureHead(item, nbt);
                 } catch (Exception e2) {
 
                 }
-                /*try {
+                try {
                     urlHead(item, nbt);
                 } catch (Exception e2) {
                     NBTHead(item, nbt);
@@ -60,13 +60,38 @@ public class Heads {
     }
 
     private void textureHead(ItemStack item, String nbt) throws IOException {
-        GameProfile newSkinProfile = new GameProfile(UUID.randomUUID(), null);
-        newSkinProfile.getProperties().put("textures", new Property("textures", Base64Coder.encodeString("{textures:{SKIN:{url:\"" + nbt + "\"}}}")));
-        PropertyMap p = newSkinProfile.getProperties();
-        String texture = p.get("value").toString();
-        String signature = p.get("signature").toString();
+        //GameProfile newSkinProfile = new GameProfile(UUID.randomUUID(), null);
+        //newSkinProfile.getProperties().put("textures", new Property("textures", Base64Coder.encodeString("{textures:{SKIN:{url:\"" + nbt + "\"}}}")));
+        /*Property p = newSkinProfile.getProperties().get("textures").iterator().next();
+        String texture = p.getValue();
+        String signature = p.getSignature();
         String[] headTexture = new String[]{texture, signature, newSkinProfile.getId().toString()};
-        setHead(item, nbt, headTexture);
+        setHead(item, nbt, headTexture);*/
+        ItemStack head;
+        try {
+            //1.13
+            head = new ItemStack(Material.valueOf("LEGACY_SKULL_ITEM"), 1, (short) 3);
+        } catch (Exception e) {
+            //1.8-1.12
+            head = new ItemStack(Material.valueOf("SKULL_ITEM"), 1, (short) 3);
+        }
+        head.setItemMeta(item.getItemMeta());
+        SkullMeta headMeta = (SkullMeta) head.getItemMeta();
+        GameProfile profile = new GameProfile(UUID.randomUUID(), null);
+        byte[] encodedData = Base64.encodeBase64(String.format("{textures:{SKIN:{url:\"%s\"}}}", nbt).getBytes());
+        profile.getProperties().put("textures", new Property("textures", new String(encodedData)));
+        Field profileField = null;
+        try {
+            profileField = headMeta.getClass().getDeclaredField("profile");
+            profileField.setAccessible(true);
+            profileField.set(headMeta, profile);
+        } catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException e1) {
+            e1.printStackTrace();
+        }
+        head.setItemMeta(headMeta);
+        item.setType(head.getType());
+        item.setItemMeta(head.getItemMeta());
+        //.setItemMeta(headMeta);
     }
 
     @SuppressWarnings("deprecation")
@@ -111,7 +136,7 @@ public class Heads {
         SkullMeta headMeta = (SkullMeta) item.getItemMeta();
         GameProfile profile = new GameProfile(UUID.randomUUID(), null);
         //URL url_0 = new URL(url);
-        byte[] encodedData = Base64.getEncoder().encode(String.format("{textures:{SKIN:{url:\"%s\"}}}", url.trim()).getBytes
+        byte[] encodedData = Base64.encodeBase64(String.format("{textures:{SKIN:{url:\"%s\"}}}", url.trim()).getBytes
                 ());
         profile.getProperties().put("textures", new Property("textures", new String(encodedData)));
         Field profileField = null;
