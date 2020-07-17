@@ -5,10 +5,13 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.UUID;
 
-import org.apache.commons.codec.binary.Base64;
+import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.properties.Property;
+import com.mojang.authlib.properties.PropertyMap;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -17,8 +20,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.properties.Property;
 
 import me.SuperRonanCraft.AdvancedCustomItemAPI.Main;
 import me.SuperRonanCraft.AdvancedCustomItemAPI.references.item.NBT.NBTCompound;
@@ -26,6 +27,7 @@ import me.SuperRonanCraft.AdvancedCustomItemAPI.references.item.NBT.NBTItem;
 import me.SuperRonanCraft.AdvancedCustomItemAPI.references.item.NBT.NBTList;
 import me.SuperRonanCraft.AdvancedCustomItemAPI.references.item.NBT.NBTListCompound;
 import me.SuperRonanCraft.AdvancedCustomItemAPI.references.item.NBT.NBTType;
+import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
 public class Heads {
 
@@ -43,6 +45,11 @@ public class Heads {
             try {
                 playerHead(item, nbt);
             } catch (Exception e) {
+                try {
+                    textureHead(item, nbt);
+                } catch (Exception e2) {
+
+                }
                 /*try {
                     urlHead(item, nbt);
                 } catch (Exception e2) {
@@ -50,6 +57,16 @@ public class Heads {
                 }*/
             }
         }
+    }
+
+    private void textureHead(ItemStack item, String nbt) throws IOException {
+        GameProfile newSkinProfile = new GameProfile(UUID.randomUUID(), null);
+        newSkinProfile.getProperties().put("textures", new Property("textures", Base64Coder.encodeString("{textures:{SKIN:{url:\"" + nbt + "\"}}}")));
+        PropertyMap p = newSkinProfile.getProperties();
+        String texture = p.get("value").toString();
+        String signature = p.get("signature").toString();
+        String[] headTexture = new String[]{texture, signature, newSkinProfile.getId().toString()};
+        setHead(item, nbt, headTexture);
     }
 
     @SuppressWarnings("deprecation")
@@ -61,6 +78,10 @@ public class Heads {
             return;
         }
         String[] headTexture = getFromName(nbt);
+        setHead(item, nbt, headTexture);
+    }
+
+    private void setHead(ItemStack item, String nbt, String[] headTexture) throws IOException {
         if (headTexture != null) {
             ItemStack head;
             try {
@@ -86,10 +107,11 @@ public class Heads {
     }
 
     private void urlHead(ItemStack item, String url) throws Exception {
+        System.out.println(url);
         SkullMeta headMeta = (SkullMeta) item.getItemMeta();
         GameProfile profile = new GameProfile(UUID.randomUUID(), null);
         //URL url_0 = new URL(url);
-        byte[] encodedData = Base64.encodeBase64(String.format("{textures:{SKIN:{url:\"%s\"}}}", url.trim()).getBytes
+        byte[] encodedData = Base64.getEncoder().encode(String.format("{textures:{SKIN:{url:\"%s\"}}}", url.trim()).getBytes
                 ());
         profile.getProperties().put("textures", new Property("textures", new String(encodedData)));
         Field profileField = null;
