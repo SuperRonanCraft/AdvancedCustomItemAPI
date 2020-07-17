@@ -11,7 +11,9 @@ import java.util.UUID;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import com.mojang.authlib.properties.PropertyMap;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.craftbukkit.libs.org.apache.commons.codec.binary.Base64;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -44,13 +46,13 @@ public class Heads {
         } else {
             try {
                 playerHead(item, nbt);
-            } catch (Exception e) {/*
+            } catch (Exception e) {
                 try {
                     textureHead(item, nbt);
                 } catch (Exception e2) {
-
+                    //e2.printStackTrace();
                 }
-                try {
+                /*try {
                     urlHead(item, nbt);
                 } catch (Exception e2) {
                     NBTHead(item, nbt);
@@ -59,45 +61,35 @@ public class Heads {
         }
     }
 
-    private void textureHead(ItemStack item, String nbt) throws IOException {
-        //GameProfile newSkinProfile = new GameProfile(UUID.randomUUID(), null);
-        //newSkinProfile.getProperties().put("textures", new Property("textures", Base64Coder.encodeString("{textures:{SKIN:{url:\"" + nbt + "\"}}}")));
-        /*Property p = newSkinProfile.getProperties().get("textures").iterator().next();
-        String texture = p.getValue();
-        String signature = p.getSignature();
-        String[] headTexture = new String[]{texture, signature, newSkinProfile.getId().toString()};
-        setHead(item, nbt, headTexture);*/
-        ItemStack head;
+    private void textureHead(ItemStack item, String nbt) {
         try {
             //1.13
-            head = new ItemStack(Material.valueOf("LEGACY_SKULL_ITEM"), 1, (short) 3);
-        } catch (Exception e) {
+            item.setType(Material.valueOf("LEGACY_SKULL_ITEM"));
+        } catch (Exception e) { //Deprecation support
             //1.8-1.12
-            head = new ItemStack(Material.valueOf("SKULL_ITEM"), 1, (short) 3);
+            item.setType(Material.valueOf("SKULL_ITEM"));
+            item.setDurability((short) 3);
         }
-        head.setItemMeta(item.getItemMeta());
-        SkullMeta headMeta = (SkullMeta) head.getItemMeta();
-        GameProfile profile = new GameProfile(UUID.randomUUID(), null);
-        byte[] encodedData = Base64.encodeBase64(String.format("{textures:{SKIN:{url:\"%s\"}}}", nbt).getBytes());
-        profile.getProperties().put("textures", new Property("textures", new String(encodedData)));
+        SkullMeta headMeta = (SkullMeta) item.getItemMeta();
+        GameProfile profile = new GameProfile(UUID.randomUUID(), ""); //Create a dummy profile
+        profile.getProperties().put("textures", new Property("textures", nbt));
         Field profileField = null;
-        try {
+        try { //Find the skull properties and set the texture
             profileField = headMeta.getClass().getDeclaredField("profile");
             profileField.setAccessible(true);
             profileField.set(headMeta, profile);
+            System.out.println("Texture set! " + nbt);
         } catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException e1) {
             e1.printStackTrace();
         }
-        head.setItemMeta(headMeta);
-        item.setType(head.getType());
-        item.setItemMeta(head.getItemMeta());
-        //.setItemMeta(headMeta);
+        item.setItemMeta(headMeta); //Set the texture
     }
 
-    @SuppressWarnings("deprecation")
     private void playerHead(ItemStack item, String nbt) throws IOException {
         SkullMeta sMeta = (SkullMeta) item.getItemMeta();
-        if (sMeta.setOwner(nbt)) {
+        UUID id = UUID.fromString(nbt);
+        OfflinePlayer player = Bukkit.getOfflinePlayer(id);
+        if (sMeta.setOwningPlayer(player)) {
             item.setItemMeta(sMeta);
             cache.put(nbt, item);
             return;
@@ -131,7 +123,7 @@ public class Heads {
             throw new IOException();
     }
 
-    private void urlHead(ItemStack item, String url) throws Exception {
+    /*private void urlHead(ItemStack item, String url) throws Exception {
         System.out.println(url);
         SkullMeta headMeta = (SkullMeta) item.getItemMeta();
         GameProfile profile = new GameProfile(UUID.randomUUID(), null);
@@ -198,7 +190,7 @@ public class Heads {
         } catch (Exception e) {
             //Nothing
         }
-    }
+    }*/
 
     private String[] getFromName(String name) {
         try {

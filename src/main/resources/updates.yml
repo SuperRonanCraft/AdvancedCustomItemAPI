@@ -1,3 +1,6 @@
+1.6.4:
+- 'Added - Base64 head models support, this is the "Value" portion of heads on this site https://minecraft-heads.com/'
+- 'Fixed - Deprecation on name based player heads, all player based heads will require a UUID instead of the player name!'
 1.6.3:
 - '- Fixed - Legacy items being pulled while on 1.13 and 1.14'
 1.6.2:
