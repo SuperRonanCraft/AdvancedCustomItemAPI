@@ -78,7 +78,7 @@ public class Heads {
             profileField = headMeta.getClass().getDeclaredField("profile");
             profileField.setAccessible(true);
             profileField.set(headMeta, profile);
-            System.out.println("Texture set! " + nbt);
+            //System.out.println("Texture set! " + nbt);
         } catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException e1) {
             e1.printStackTrace();
         }
