@@ -2,7 +2,6 @@ package me.SuperRonanCraft.AdvancedCustomItemAPI.references.item;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -18,8 +17,8 @@ import me.SuperRonanCraft.AdvancedCustomItemAPI.Main;
 import me.SuperRonanCraft.AdvancedCustomItemAPI.player.enums.ItemType;
 
 public class Placeholders {
-    private Main pl;
-    private InvItemMeta meta = new InvItemMeta();
+    private final Main pl;
+    private final InvItemMeta meta = new InvItemMeta();
 
     public Placeholders(Main pl) {
         this.pl = pl;
@@ -99,17 +98,19 @@ public class Placeholders {
                 length++;
             }
         String bin = buf2.toString() + binary;// binary string with leading 0's
-        if (bin.substring(5, 6).equals("1"))
+
+        assert meta != null;
+        if (bin.charAt(5) == '1')
             meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        if (bin.substring(4, 5).equals("1"))
+        if (bin.charAt(4) == '1')
             meta.addItemFlags(ItemFlag.HIDE_DESTROYS);
-        if (bin.substring(3, 4).equals("1"))
+        if (bin.charAt(3) == '1')
             meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        if (bin.substring(2, 3).equals("1"))
+        if (bin.charAt(2) == '1')
             meta.addItemFlags(ItemFlag.HIDE_PLACED_ON);
-        if (bin.substring(1, 2).equals("1"))
+        if (bin.charAt(1) == '1')
             meta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
-        if (bin.substring(0, 1).equals("1"))
+        if (bin.charAt(0) == '1')
             meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
         item.setItemMeta(meta);
     }
@@ -121,11 +122,19 @@ public class Placeholders {
             meta.setBanner(item, nbt);
         else if (type.equals(ItemType.COLOR))
             meta.setColor(item, nbt);
-        else if (type.equals(ItemType.MONSTER_EGG))
-            return;
+        //else if (type.equals(ItemType.MONSTER_EGG))
+        //    return;
             //meta.setEgg(item, nbt);
         else if (type.equals(ItemType.SKULL))
             meta.setHead(item, nbt);
+    }
+
+    @SuppressWarnings("unused")
+    public void setModelData(ItemStack item, int data, Player p) {
+        ItemMeta meta = item.getItemMeta();
+        assert meta != null;
+        meta.setCustomModelData(data);
+        item.setItemMeta(meta);
     }
 
     private ItemStack invalidItem(String[] item) {
@@ -153,6 +162,6 @@ public class Placeholders {
     }
 
     private int val(String str) {
-        return Integer.valueOf(str.trim());
+        return Integer.parseInt(str.trim());
     }
 }
