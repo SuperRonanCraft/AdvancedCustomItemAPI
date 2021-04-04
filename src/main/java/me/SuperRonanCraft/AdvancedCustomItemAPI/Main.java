@@ -19,12 +19,12 @@ import java.util.List;
 public class Main extends JavaPlugin {
 
     public boolean PlaceholderAPI;
-    private Messages text = new Messages(this);
-    private Permissions perms = new Permissions();
-    private Placeholders phd = new Placeholders(this);
-    private Commands cmd = new Commands(this);
-    private Listener listen = new Listener();
-    private PlayerInfo playerInfo = new PlayerInfo();
+    private final Messages text = new Messages(this);
+    private final Permissions perms = new Permissions();
+    private final Placeholders phd = new Placeholders(this);
+    private final Commands cmd = new Commands(this);
+    private final Listener listen = new Listener();
+    private final PlayerInfo playerInfo = new PlayerInfo();
     private static Main instance;
 
     public void onEnable() {
