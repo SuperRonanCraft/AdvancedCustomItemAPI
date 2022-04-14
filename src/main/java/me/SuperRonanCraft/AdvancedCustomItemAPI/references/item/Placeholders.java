@@ -133,7 +133,7 @@ public class Placeholders {
     public void setModelData(ItemStack item, int data, Player p) {
         ItemMeta meta = item.getItemMeta();
         assert meta != null;
-        meta.setCustomModelData(data);
+        //meta.setCustomModelData(data);
         item.setItemMeta(meta);
     }
 

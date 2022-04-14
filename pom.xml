@@ -6,6 +6,7 @@
 
     <groupId>me.SuperRonanCraft</groupId>
     <artifactId>AdvancedCustomItemAPI</artifactId>
+    <packaging>pom</packaging>
     <version>1.6.4</version>
 
     <build>
@@ -16,6 +17,9 @@
             </resource>
         </resources>
     </build>
+    <modules>
+        <module>abstractionAPI</module>
+    </modules>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -37,16 +41,22 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.14.4-R0.1-SNAPSHOT</version>
+            <version>1.8.8-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot</artifactId>
+            <version>1.8.8-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <!--Bukkit API-->
-        <dependency>
+        <!--dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
             <version>1.14.4-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
-        </dependency>
+        <dependency-->
         <!-- Spigot (this includes Spigot API, Bukkit API, Craftbukkit and NMS) -->
         <!--<dependency>
             <groupId>org.spigotmc</groupId>
@@ -59,18 +69,6 @@
             <groupId>me.clip</groupId>
             <artifactId>placeholderapi</artifactId>
             <version>2.8.7</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot</artifactId>
-            <version>1.15.2-R0.1-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot</artifactId>
-            <version>1.14.1-R0.1-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

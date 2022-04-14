@@ -18,13 +18,13 @@ import java.util.List;
 import java.util.Random;
 
 class InvItemMeta {
-    private Calculations cal = new Calculations();
+    private final Calculations cal = new Calculations();
     private Material[] valids;
-    private Material[] leathers = {Material.LEATHER_BOOTS, Material.LEATHER_CHESTPLATE, Material.LEATHER_HELMET,
+    private final Material[] leathers = {Material.LEATHER_BOOTS, Material.LEATHER_CHESTPLATE, Material.LEATHER_HELMET,
             Material.LEATHER_LEGGINGS};
     private Material[] potions;
     private Material arrow;
-    private Heads heads = new Heads();
+    private final Heads heads = new Heads();
 
     InvItemMeta() {
         // 1.8.x Compatibility

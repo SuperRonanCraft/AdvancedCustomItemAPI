@@ -1,39 +1,32 @@
 package me.SuperRonanCraft.AdvancedCustomItemAPI.references.item.heads;
 
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.lang.reflect.Field;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.HashMap;
-import java.util.UUID;
-
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
-import com.mojang.authlib.properties.PropertyMap;
+import me.SuperRonanCraft.AdvancedCustomItemAPI.references.item.NBT.NBTCompound;
+import me.SuperRonanCraft.AdvancedCustomItemAPI.references.item.NBT.NBTItem;
+import me.SuperRonanCraft.AdvancedCustomItemAPI.references.item.NBT.NBTListCompound;
+import me.SuperRonanCraft.AdvancedCustomItemAPI.references.item.NBT.NBTType;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.craftbukkit.libs.org.apache.commons.codec.binary.Base64;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
-import org.bukkit.scheduler.BukkitRunnable;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
-import me.SuperRonanCraft.AdvancedCustomItemAPI.Main;
-import me.SuperRonanCraft.AdvancedCustomItemAPI.references.item.NBT.NBTCompound;
-import me.SuperRonanCraft.AdvancedCustomItemAPI.references.item.NBT.NBTItem;
-import me.SuperRonanCraft.AdvancedCustomItemAPI.references.item.NBT.NBTList;
-import me.SuperRonanCraft.AdvancedCustomItemAPI.references.item.NBT.NBTListCompound;
-import me.SuperRonanCraft.AdvancedCustomItemAPI.references.item.NBT.NBTType;
-import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.lang.reflect.Field;
+import java.net.URL;
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.UUID;
 
 public class Heads {
 
     private HashMap<String, ItemStack> cache = new HashMap<>();
+    private Field field;
 
 
     public void setHead(ItemStack item, String nbt) {
@@ -48,7 +41,7 @@ public class Heads {
                 playerHead(item, nbt);
             } catch (Exception e) {
                 try {
-                    textureHead(item, nbt);
+                    getCustomHead(item, nbt);
                 } catch (Exception e2) {
                     //e2.printStackTrace();
                 }
@@ -61,7 +54,57 @@ public class Heads {
         }
     }
 
-    private void textureHead(ItemStack item, String nbt) {
+    public void getCustomHead(ItemStack skull, String url) {
+
+        try {
+            //1.13
+            skull.setType(Material.valueOf("PLAYER_HEAD"));
+        } catch (Exception e) { //Deprecation support
+            //1.8-1.12
+            skull.setType(Material.valueOf("SKULL_ITEM"));
+            skull.setDurability((short) 3);
+        }
+        SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();
+
+        assert skullMeta != null;
+
+        if (url.length() < 16) {
+
+            skullMeta.setOwner(url);
+            skull.setItemMeta(skullMeta);
+            return;
+        }
+
+        StringBuilder s_url = new StringBuilder();
+        s_url.append("https://textures.minecraft.net/texture/").append(url); // We get the texture link.
+
+        GameProfile gameProfile = new GameProfile(UUID.randomUUID(), null); // We create a GameProfile
+
+        // We get the bytes from the texture in Base64 encoded that comes from the Minecraft-URL.
+        byte[] data = Base64.getEncoder().encode(String.format("{textures:{SKIN:{url:\"%s\"}}}", s_url.toString()).getBytes());
+
+        // We set the texture property in the GameProfile.
+        gameProfile.getProperties().put("textures", new Property("textures", new String(data)));
+
+        try {
+
+            if (field == null) field = skullMeta.getClass().getDeclaredField("profile"); // We get the field profile.
+
+            field.setAccessible(true); // We set as accessible to modify.
+            field.set(skullMeta, gameProfile); // We set in the skullMeta the modified GameProfile that we created.
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        skull.setItemMeta(skullMeta);
+        cache.put(url, skull);
+
+        //return skull; //Finally, you have the custom head!
+
+    }
+
+    /*private void textureHead(ItemStack item, String nbt) {
         try {
             //1.13
             item.setType(Material.valueOf("LEGACY_SKULL_ITEM"));
@@ -83,13 +126,13 @@ public class Heads {
             e1.printStackTrace();
         }
         item.setItemMeta(headMeta); //Set the texture
-    }
+    }*/
 
     private void playerHead(ItemStack item, String nbt) throws IOException {
         SkullMeta sMeta = (SkullMeta) item.getItemMeta();
         UUID id = UUID.fromString(nbt);
         OfflinePlayer player = Bukkit.getOfflinePlayer(id);
-        if (sMeta.setOwningPlayer(player)) {
+        if (sMeta.setOwner(player.getName())) {
             item.setItemMeta(sMeta);
             cache.put(nbt, item);
             return;
@@ -103,7 +146,7 @@ public class Heads {
             ItemStack head;
             try {
                 //1.13
-                head = new ItemStack(Material.valueOf("LEGACY_SKULL_ITEM"), 1, (short) 3);
+                head = new ItemStack(Material.valueOf("PLAYER_HEAD"), 1, (short) 3);
             } catch (Exception e) {
                 //1.8-1.12
                 head = new ItemStack(Material.valueOf("SKULL_ITEM"), 1, (short) 3);

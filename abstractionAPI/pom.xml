@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <packaging>pom</packaging>
+
+    <groupId>me.SuperRonanCraft</groupId>
+    <version>1.0</version>
+    <artifactId>abstractionAPI</artifactId>
+
+    <modules>
+        <module>api1_8_8</module>
+        <module>api1_9_2</module>
+    </modules>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>me.SuperRonanCraft</groupId>
+            <artifactId>AdvancedCustomItemAPI</artifactId>
+            <version>1.6.4</version>
+        </dependency>
+        <dependency>
+            <groupId>me.SuperRonanCraft</groupId>
+            <artifactId>api1_8_8</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>me.SuperRonanCraft</groupId>
+            <artifactId>api1_9_2</artifactId>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
+
+</project>
