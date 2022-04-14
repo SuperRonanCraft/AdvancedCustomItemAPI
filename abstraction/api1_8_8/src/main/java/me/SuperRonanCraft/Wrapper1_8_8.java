@@ -16,6 +16,6 @@ public class Wrapper1_8_8 implements VersionWrapper {
 
     @Override
     public Material getArrow() {
-        return null;
+        return Material.ARROW;
     }
 }
